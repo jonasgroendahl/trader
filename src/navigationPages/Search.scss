@@ -1,0 +1,9 @@
+.Search {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.Search > * {
+  margin: 6px 0;
+}

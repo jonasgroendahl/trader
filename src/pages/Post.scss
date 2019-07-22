@@ -1,0 +1,51 @@
+.Post {
+  /*
+  position: fixed;
+  z-index: 1300;
+  right: 0px;
+  bottom: 56px;
+  top: 0px;
+  left: 0px;
+  background: white;
+  */
+
+  img {
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .imgContainer {
+    position: relative;
+  }
+
+  .MuiAvatar-root {
+    position: absolute;
+    bottom: -20px;
+    right: 25px;
+    width: 60px;
+    height: 60px;
+  }
+
+  .center-dots {
+    display: flex;
+    height: calc(100% - 10px);
+    justify-content: center;
+    align-items: flex-end;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    svg {
+      color: #eee;
+      height: 15px;
+      width: 15px;
+      margin-right: 5px;
+
+      &.selected {
+        color: white;
+      }
+    }
+  }
+}

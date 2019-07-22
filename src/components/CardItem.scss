@@ -1,0 +1,18 @@
+.CardItem {
+  img {
+    width: 100%;
+  }
+
+  .MuiCardHeader-avatar {
+    position: relative;
+
+    svg {
+      position: absolute;
+      bottom: -10px;
+      right: -10px;
+      border-radius: 4px;
+      background: orangered;
+      padding: 2px;
+    }
+  }
+}

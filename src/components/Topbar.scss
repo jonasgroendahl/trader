@@ -1,0 +1,11 @@
+.Topbar {
+  .MuiToolbar-root > *:not(:last-child) {
+    margin-right: 4px;
+  }
+
+  .search {
+    background-color: white;
+    padding: 2px;
+    border-radius: 4px;
+  }
+}

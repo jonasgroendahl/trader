@@ -1,0 +1,9 @@
+.AddSkill {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 56px);
+
+  .MuiMobileStepper-root {
+    margin-top: auto;
+  }
+}

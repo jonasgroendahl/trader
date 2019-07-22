@@ -1,0 +1,24 @@
+.Chat {
+  .chat {
+    padding: 10px;
+  }
+
+  .chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .MuiFormControl-root {
+    margin-top: auto;
+    padding: 10px;
+  }
+
+  .chat-paragraph {
+    overflow-wrap: break-word;
+    border: solid 1px #bdbdbd;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 5px;
+  }
+}
