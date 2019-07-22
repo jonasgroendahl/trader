@@ -74,7 +74,7 @@ export default function Listing(props) {
         <KeyboardBackspace />
       </IconButton>
       <div className="imgContainer">
-        <img src={listing.img[selectedImage]} height={180} alt="Listing picture" />
+        <img src={listing.img[selectedImage]} height={180} alt="Listing" />
         <div className="center-dots">
           {listing.img.map((imgUrl, index) => (
             <Lens key={index} className={index === selectedImage ? "selected" : ""} />

@@ -19,22 +19,6 @@ div.large {
   width: 60px;
 }
 
-.skill {
-  color: #1a6e20;
-}
-
-.skill svg {
-  color: #1a6e20;
-}
-
-.item {
-  color: rgb(116, 11, 11);
-}
-
-.item svg {
-  color: rgb(116, 11, 11);
-}
-
 .main-container {
   max-height: calc(100vh - 112px);
   overflow: auto;
@@ -43,4 +27,10 @@ div.large {
 
 a {
   text-decoration: none;
+}
+
+.MuiBottomNavigation-root {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
