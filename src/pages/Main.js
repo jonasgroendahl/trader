@@ -99,11 +99,12 @@ export default function Main({ history }) {
     setPage(3);
     history.push("/");
 
-    if (
-      !user.conversations.find(
-        conversation => conversation.sender.id === userInfo.id || conversation.receiver.id
-      )
-    ) {
+    const conversationExist = user.conversations.find(
+      conversation =>
+        conversation.sender.id === userInfo.id || conversation.receiver.id === userInfo.id
+    );
+    console.log(conversationExist);
+    if (!conversationExist) {
       const newDate = format(new Date(), "YYYY-MM-DD HH:mm");
 
       const newConversation = {
