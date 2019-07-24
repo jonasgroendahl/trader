@@ -6,6 +6,7 @@ import { Search, KeyboardBackspace } from "@material-ui/icons";
 import "./Topbar.scss";
 import SearchDrawer from "./SearchDrawer";
 import Context from "./Context";
+import logo from "../assets/logo.png";
 
 export default function Topbar({ getListings }) {
   const ctx = useContext(Context);
@@ -44,11 +45,7 @@ export default function Topbar({ getListings }) {
             <KeyboardBackspace />
           </IconButton>
         ) : (
-          <img
-            src="http://www.sclance.com/pngs/leaf-logo-png/leaf_logo_png_776551.png"
-            height={50}
-            alt="Logo"
-          />
+          <img src={logo} height={50} alt="Logo" />
         )}
         <TextField
           className="search"

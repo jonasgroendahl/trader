@@ -4,6 +4,7 @@ import Context from "../components/Context";
 import { apiUrl } from "../utils/data";
 import Spacer from "../components/Spacer";
 import { Redirect } from "react-router-dom";
+import logo from "../assets/logo.png";
 
 export default function Login({ history }) {
   const { user, setUser } = useContext(Context);
@@ -81,11 +82,7 @@ export default function Login({ history }) {
 
   return (
     <div className="container">
-      <img
-        src={"http://www.sclance.com/pngs/leaf-logo-png/leaf_logo_png_776551.png"}
-        height={120}
-        alt="A leaf"
-      />
+      <img src={logo} height={120} alt="A leaf" />
       {view === 0 ? (
         <>
           <h1>Login</h1>
