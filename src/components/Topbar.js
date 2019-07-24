@@ -7,7 +7,7 @@ import "./Topbar.scss";
 import SearchDrawer from "./SearchDrawer";
 import Context from "./Context";
 
-export default function Topbar() {
+export default function Topbar({ getListings }) {
   const ctx = useContext(Context);
 
   const [open, setOpen] = useState(false);
@@ -19,7 +19,6 @@ export default function Topbar() {
   }
 
   function submitSearch(keyword) {
-    console.log("submitSearch", keyword);
     ctx.setSearching(keyword);
     setSearchOpen(false);
   }
@@ -31,6 +30,12 @@ export default function Topbar() {
     }
   }
 
+  function toggleDrawer(newOpen) {
+    setOpen(newOpen);
+    // grab new listenings after having the drawer open
+    getListings();
+  }
+
   return (
     <AppBar position="sticky" color="default" className="Topbar">
       <Toolbar>
@@ -40,8 +45,9 @@ export default function Topbar() {
           </IconButton>
         ) : (
           <img
-            src="https://dcassetcdn.com/design_img/3592548/634077/634077_19781096_3592548_8b26ba35_image.jpg"
-            height={40}
+            src="http://www.sclance.com/pngs/leaf-logo-png/leaf_logo_png_776551.png"
+            height={50}
+            alt="Logo"
           />
         )}
         <TextField
@@ -68,7 +74,7 @@ export default function Topbar() {
           <ProfilePic onClick={handleOpen} />
         )}
       </Toolbar>
-      <TopbarDrawer open={open} setOpen={setOpen} />
+      <TopbarDrawer open={open} setOpen={toggleDrawer} />
     </AppBar>
   );
 }

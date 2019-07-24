@@ -2,12 +2,12 @@ import React from "react";
 import { List, ListItem, Typography, ListItemIcon, ListItemText } from "@material-ui/core";
 import { Subject, Search } from "@material-ui/icons";
 
-export default function Tab1({ items = [], setMenuOpen }) {
+export default function Tab1({ items = [], setSelectedItem }) {
   return (
     <List>
       {items.length > 0 ? (
         items.map(item => (
-          <ListItem divider>
+          <ListItem divider onClick={() => setSelectedItem(item)} key={item.id}>
             <ListItemIcon>{item.need ? <Search /> : <Subject />}</ListItemIcon>
             <ListItemText primary={item.name} />
           </ListItem>

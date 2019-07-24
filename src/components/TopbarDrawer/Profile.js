@@ -6,7 +6,7 @@ export default function Profile({ tab, setTab, setMenuOpen, setOpen, setUser }) 
   const [anchorEl, setAnchorEl] = useState(null);
 
   function handleLogout() {
-    setUser({ id: 0, listings: [] });
+    setUser({ id: 0, listings: [], excludeList: [] });
   }
 
   return (

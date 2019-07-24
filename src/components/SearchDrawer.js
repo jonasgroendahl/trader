@@ -30,8 +30,8 @@ export default function SearchDrawer({ search, onClick }) {
         <Divider />
         {suggestions
           .filter(item => item.name.toLowerCase().includes(search))
-          .map(item => (
-            <ListItem button onClick={() => onClick(item.name)}>
+          .map((item, index) => (
+            <ListItem button onClick={() => onClick(item.name)} key={index}>
               <ListItemIcon>
                 <Search />
               </ListItemIcon>

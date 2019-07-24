@@ -1,19 +1,18 @@
-import React from "react";
-import { Card, CardMedia, CardHeader, Avatar, IconButton } from "@material-ui/core";
+import React, { useContext, useState } from "react";
+import { Card, CardMedia, CardHeader, Avatar, IconButton, Menu, MenuItem } from "@material-ui/core";
 import "./CardItem.scss";
 import { MoreVert, Search, Subject } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import Context from "./Context";
 
-export default function CardItem({
-  img,
-  name,
-  profilePic,
-  userName = "",
-  type,
-  need,
-  profileName = "",
-  id
-}) {
+export default function CardItem({ img, name, profilePic, need, profileName = "", id }) {
+  const { user, setUser } = useContext(Context);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  function handleNotInterested() {
+    setUser({ ...user, excludeList: [...user.excludeList, id] });
+    setAnchorEl(null);
+  }
   return (
     <Card className="CardItem" square>
       <CardHeader
@@ -21,18 +20,29 @@ export default function CardItem({
         subheader={profileName}
         avatar={
           <div>
-            <Avatar src={profilePic}>{userName.substr(0, 1)}</Avatar>
+            <Avatar src={profilePic}>{profileName.substr(0, 1)}</Avatar>
             {need ? <Search /> : <Subject />}
           </div>
         }
         action={
-          <IconButton>
+          <IconButton onClick={e => setAnchorEl(e.currentTarget)}>
             <MoreVert />
           </IconButton>
         }
       />
+      <Menu open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={() => setAnchorEl(null)}>
+        <MenuItem onClick={handleNotInterested}>Not interested</MenuItem>
+      </Menu>
       <Link to={`/listing/${id}`}>
-        <CardMedia component="img" height={150} src={img} />
+        <CardMedia
+          component="img"
+          height={150}
+          src={
+            img.length > 0
+              ? img[0]
+              : "https://www.gumtree.com/static/1/resources/assets/rwd/images/orphans/a37b37d99e7cef805f354d47.noimage_thumbnail.png"
+          }
+        />
       </Link>
     </Card>
   );

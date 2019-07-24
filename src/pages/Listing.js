@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import "./Post.scss";
+import React, { useState, useEffect, useRef } from "react";
+import "./Listing.scss";
 import {
   Dialog,
   Typography,
@@ -16,7 +16,7 @@ import {
 } from "@material-ui/core";
 import SlideTransition from "../components/SlideTransition";
 import { Lens, KeyboardBackspace, LocationOn } from "@material-ui/icons";
-import { users } from "../utils/data";
+import { apiUrl } from "../utils/data";
 
 export default function Listing(props) {
   const { history, match, onMessage } = props;
@@ -33,38 +33,37 @@ export default function Listing(props) {
     type: "skill"
   });
   const [showMessage, setShowMessage] = useState(0);
+  const imgContainerRef = useRef(null);
 
   useEffect(() => {
-    const id = parseInt(match.params.id);
+    const id = match.params.id;
 
-    let found = false;
+    fetch(`${apiUrl}/listing/${id}`)
+      .then(res => res.json())
+      .then(listing => setListing(listing));
+  }, [match]);
 
-    for (let user of users) {
-      for (let listing of user.listings) {
-        if (listing.id === id) {
-          const newListing = {
-            ...listing,
-            profileName: user.name,
-            profilePic: user.img,
-            profileId: user.id,
-            img: [listing.img],
-            location: user.location
-          };
-          if (listing.extraImgs) {
-            newListing.img.push(listing.extraImgs);
-          }
+  function handleStart(e) {
+    imgContainerRef.current = e.changedTouches[0].clientX;
+  }
 
-          console.log(newListing);
-          setListing(newListing);
-          found = true;
-          break;
-        }
-      }
-      if (found) {
-        break;
+  function handleMove(e) {
+    const diff = e.changedTouches[0].clientX - imgContainerRef.current;
+
+    if (imgContainerRef.current !== null) {
+      if (diff < -25 && selectedImage < listing.img.length - 1) {
+        setSelectedImage(selectedImage + 1);
+        handleEnd();
+      } else if (diff > 25 && selectedImage !== 0) {
+        setSelectedImage(selectedImage - 1);
+        handleEnd();
       }
     }
-  }, [match]);
+  }
+
+  function handleEnd() {
+    imgContainerRef.current = null;
+  }
 
   const purposeTypeString = listing.need ? "I am looking for" : `I can trade this ${listing.type}`;
 
@@ -73,14 +72,29 @@ export default function Listing(props) {
       <IconButton onClick={() => history.goBack()}>
         <KeyboardBackspace />
       </IconButton>
-      <div className="imgContainer">
-        <img src={listing.img[selectedImage]} height={180} alt="Listing" />
+      <div
+        className="imgContainer"
+        onTouchStart={handleStart}
+        onTouchMove={handleMove}
+        onTouchEnd={handleEnd}
+      >
+        <img
+          src={
+            listing.img.length > 0
+              ? listing.img[selectedImage]
+              : "https://www.gumtree.com/static/1/resources/assets/rwd/images/orphans/a37b37d99e7cef805f354d47.noimage_thumbnail.png"
+          }
+          height={180}
+          alt="Listing"
+        />
         <div className="center-dots">
           {listing.img.map((imgUrl, index) => (
             <Lens key={index} className={index === selectedImage ? "selected" : ""} />
           ))}
         </div>
-        <Avatar className="userProfilePic" component="image" src={listing.profilePic} />
+        <Avatar className="userProfilePic" src={listing.profilePic}>
+          {listing.profileName.substr(0, 1)}
+        </Avatar>
       </div>
       <div className="container">
         <Typography variant="body2">{purposeTypeString}</Typography>
@@ -93,7 +107,7 @@ export default function Listing(props) {
         color="primary"
         onClick={() =>
           onMessage({
-            userId: listing.profileId,
+            id: listing.profileId,
             name: listing.profileName,
             img: listing.profilePic
           })

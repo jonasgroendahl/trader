@@ -22,7 +22,7 @@ div.large {
 .main-container {
   max-height: calc(100vh - 112px);
   overflow: auto;
-  padding-bottom: 10px;
+  height: 100%;
 }
 
 a {
@@ -33,4 +33,12 @@ a {
   position: fixed;
   bottom: 0;
   width: 100%;
+}
+
+.Spacer {
+  margin-top: 10px;
+}
+
+input[type="file"] {
+  display: none;
 }

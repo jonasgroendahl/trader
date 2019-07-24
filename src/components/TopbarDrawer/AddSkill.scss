@@ -5,5 +5,22 @@
 
   .MuiMobileStepper-root {
     margin-top: auto;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+
+  .actions-container > button:nth-child(2) {
+    margin-left: 10px;
+  }
+
+  .img-container {
+    img {
+      width: 100%;
+    }
+
+    .img-entry {
+      display: flex;
+    }
   }
 }

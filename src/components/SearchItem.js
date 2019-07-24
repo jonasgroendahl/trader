@@ -14,7 +14,15 @@ export default function SearchItem({
     <Card className="SearchItem" component={Link} to={`/listing/${id}`}>
       <Grid container>
         <Grid item xs={6}>
-          <CardMedia src={img} height={100} component="img" />
+          <CardMedia
+            src={
+              img.length > 0
+                ? img[0]
+                : "https://www.gumtree.com/static/1/resources/assets/rwd/images/orphans/a37b37d99e7cef805f354d47.noimage_thumbnail.png"
+            }
+            height={100}
+            component="img"
+          />
         </Grid>
         <Grid item xs={6}>
           <div className="content">

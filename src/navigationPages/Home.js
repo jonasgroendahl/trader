@@ -1,26 +1,28 @@
 import React, { useContext } from "react";
 import { Typography } from "@material-ui/core";
-import { users } from "../utils/data";
 import Context from "../components/Context";
 import CardItem from "../components/CardItem";
 
-export default function Home() {
+export default function Home({ listings }) {
   const { user } = useContext(Context);
 
-  const myNeeds = user.listings.map(listing => listing.name).join("|");
+  const myNeeds = user.listings
+    .reduce((acc, listing) => {
+      const name = listing.name.toLowerCase();
+      acc.push(...name.split(" "));
+      return acc;
+    }, [])
+    .join("|");
 
   const regex = new RegExp("\\b" + myNeeds + "\\b", "gi");
 
-  const mappedProducts = users
-    .reduce((acc, cur) => {
-      if (cur.id !== user.id) {
-        const listings = cur.listings
-          .filter(listing => listing.name.toLowerCase().match(regex))
-          .map(el => ({ ...el, profileName: cur.name, profilePic: cur.img }));
-        acc.push(...listings);
-      }
-      return acc;
-    }, [])
+  const mappedProducts = listings
+    .filter(
+      cur =>
+        cur.profileId !== user.id &&
+        cur.name.toLowerCase().match(regex) &&
+        !user.excludeList.includes(cur.id)
+    )
     .map((item, key) => (
       <div key={key}>
         <CardItem {...item} />

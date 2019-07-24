@@ -14,8 +14,20 @@ import { KeyboardBackspace } from "@material-ui/icons";
 import "./Chat.scss";
 import { format } from "date-fns";
 
-export default function Chat({ conversation, onClose, onChange }) {
-  const { img, name = "", messages = [], userId, id } = conversation;
+export default function Chat({ conversation, onClose, onChange, userId }) {
+  const { messages = [], sender, receiver } = conversation;
+
+  let name = "";
+  let img = "";
+  if (receiver) {
+    if (receiver.id === userId) {
+      name = sender.name;
+      img = sender.img;
+    } else {
+      name = receiver.name;
+      img = receiver.img;
+    }
+  }
 
   const [content, setContent] = useState("");
 
@@ -24,8 +36,8 @@ export default function Chat({ conversation, onClose, onChange }) {
       onChange({
         content,
         date: format(new Date(), "YYYY-MM-DD HH:mm"),
-        id,
-        sender: conversation.sender
+        sender: userId,
+        _id: conversation._id
       });
       setContent("");
     }
@@ -44,11 +56,11 @@ export default function Chat({ conversation, onClose, onChange }) {
         </AppBar>
         <List className="chat">
           {messages.map((msg, index) => (
-            <Grid container className="chat-message" key={`m_${index}`}>
+            <Grid container className="chat-message" key={`m_${index}`} alignItems="center">
               <Grid item xs={2}>
-                {msg.sender === userId ? <Avatar src={img} /> : null}
+                {msg.sender !== userId ? <Avatar src={img}>{name.substr(0, 1)}</Avatar> : null}
               </Grid>
-              {msg.sender === userId ? (
+              {msg.sender !== userId ? (
                 <>
                   <Grid item xs={8}>
                     <Typography variant="body1" className="chat-paragraph">
@@ -71,7 +83,6 @@ export default function Chat({ conversation, onClose, onChange }) {
           variant="outlined"
           autoFocus
           placeholder="Message"
-          InputProps={{ disableUnderline: true }}
           fullWidth
           value={content}
           onKeyPress={handleKeyPress}

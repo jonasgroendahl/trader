@@ -1,32 +1,23 @@
-import React, { useContext } from "react";
-import { users } from "../utils/data";
+import React from "react";
 import CardItem from "../components/CardItem";
 import "./Explore.scss";
-import Context from "../components/Context";
+import { Typography } from "@material-ui/core";
 
-export default function Explore() {
-  const { user } = useContext(Context);
-
-  const data = users.reduce((acc, cur) => {
-    if (cur.id !== user.id) {
-      const listings = cur.listings.map(listing => ({
-        ...listing,
-        profileName: cur.name,
-        profilePic: cur.img
-      }));
-      acc.push(...listings);
-    }
-    return acc;
-  }, []);
-
+export default function Explore({ listings }) {
   return (
     <div className="Explore">
       <div className="grid">
-        {data.map((item, i) => (
-          <div key={i}>
-            <CardItem {...item} />
+        {listings.length === 0 ? (
+          <div className="container">
+            <Typography variant="body1">No listings to show at the moment</Typography>
           </div>
-        ))}
+        ) : (
+          listings.map((item, i) => (
+            <div key={i}>
+              <CardItem {...item} />
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
