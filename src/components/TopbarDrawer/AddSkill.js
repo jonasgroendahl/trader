@@ -47,6 +47,8 @@ export default function AddSkill({ onClose, item }) {
 
   // if submitting
   function handleNextClick() {
+    const { img, ...skillProps } = skill;
+
     if (activeStep === 2) {
       const newUser = { ...user };
       setLoading(true);
@@ -60,7 +62,7 @@ export default function AddSkill({ onClose, item }) {
         fd.append(
           "body",
           JSON.stringify({
-            ...skill,
+            ...skillProps,
             profileName: user.name,
             profileId: user.id,
             profilePic: user.img,
@@ -81,20 +83,26 @@ export default function AddSkill({ onClose, item }) {
             onClose();
           });
       } else {
+        const body = {
+          ...skill,
+          profileName: user.name,
+          profileId: user.id,
+          profilePic: user.img
+        };
+        console.log("sender den her", body);
         fetch(`${apiUrl}/listing/${skill.id}`, {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
-            body: JSON.stringify({
-              ...skill,
-              profileName: user.name,
-              profileId: user.id,
-              profilePic: user.img
-            })
-          }
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(body)
         }).then(res => {
+          console.log("Upload success");
           const index = newUser.listings.findIndex(listing => listing.id === skill.id);
           newUser.listings[index] = skill;
+          setUser(newUser);
+          setLoading(false);
+          onClose();
         });
       }
     } else {
@@ -164,7 +172,7 @@ export default function AddSkill({ onClose, item }) {
                   variant="contained"
                   color="primary"
                   onClick={() => inputRef.current.click()}
-                  disabled={loading}
+                  disabled={loading || skill.id}
                 >
                   Upload
                 </Button>

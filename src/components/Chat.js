@@ -40,6 +40,16 @@ export default function Chat({ conversation, onClose, onChange, userId }) {
         _id: conversation._id
       });
       setContent("");
+      scrollToBot();
+    }
+  }
+
+  function scrollToBot() {
+    const el = document.querySelector(".chat");
+    if (el) {
+      setTimeout(() => {
+        el.scrollBy({ top: el.scrollHeight, behavior: "smooth" });
+      }, 50);
     }
   }
 
@@ -86,6 +96,7 @@ export default function Chat({ conversation, onClose, onChange, userId }) {
           fullWidth
           value={content}
           onKeyPress={handleKeyPress}
+          onFocus={scrollToBot}
           onChange={e => setContent(e.target.value)}
         />
       </div>

@@ -85,7 +85,7 @@ export default function ProfileBody({ tab, items, setMenuOpen, user, onSave, set
               onChange={handleChange}
             />
           </Grid>
-          <div style={{ position: "fixed", bottom: 15, right: 15 }}>
+          <div style={{ position: "fixed", bottom: 0, padding: 15, left: 0 }}>
             <Button variant="contained" color="primary" onClick={handleSave}>
               Save changes
             </Button>
