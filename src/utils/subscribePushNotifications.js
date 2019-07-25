@@ -1,3 +1,5 @@
+import { apiUrl } from "./data";
+
 const urlB64ToUint8Array = base64String => {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
   const base64 = (base64String + padding).replace(/\-/g, "+").replace(/_/g, "/");
@@ -21,7 +23,7 @@ export default function subscribePushNotifications(userId) {
 
     registration.pushManager.subscribe(options).then(subscription => {
       console.log(subscription, "hi");
-      fetch(`http://localhost:3001/v3/trader/push-notifcation`, {
+      fetch(`${apiUrl}/push-notifcation`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
