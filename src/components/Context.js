@@ -17,7 +17,7 @@ export function ContextProvider({ children }) {
   const [searching, setSearching] = useState(false);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV === "development" && false) {
       fetch(`${apiUrl}/login`, {
         method: "POST",
         headers: {

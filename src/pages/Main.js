@@ -12,6 +12,7 @@ import Home from "../navigationPages/Home";
 import Events from "../navigationPages/Events";
 import { format } from "date-fns";
 import { apiUrl } from "../utils/data";
+import subscribePushNotifcations from "../utils/subscribePushNotifications";
 
 export default function Main({ history }) {
   const [page, setPage] = useState(0);
@@ -23,7 +24,7 @@ export default function Main({ history }) {
       case 0:
         return <Home listings={listings} />;
       case 1:
-        return <Explore listings={listings} />;
+        return <Explore listings={listings} user={user} />;
       case 2:
         return <Events />;
       case 3:
@@ -41,7 +42,10 @@ export default function Main({ history }) {
   }
 
   useEffect(() => {
-    getListings();
+    if (user.id) {
+      getListings();
+      subscribePushNotifcations(user.id);
+    }
   }, []);
 
   function getListings() {

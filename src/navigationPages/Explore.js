@@ -3,7 +3,7 @@ import CardItem from "../components/CardItem";
 import "./Explore.scss";
 import { Typography } from "@material-ui/core";
 
-export default function Explore({ listings }) {
+export default function Explore({ listings, user }) {
   return (
     <div className="Explore">
       <div className="grid">
@@ -12,11 +12,13 @@ export default function Explore({ listings }) {
             <Typography variant="body1">No listings to show at the moment</Typography>
           </div>
         ) : (
-          listings.map((item, i) => (
-            <div key={i}>
-              <CardItem {...item} />
-            </div>
-          ))
+          listings
+            .filter(i => !user.excludeList.includes(i.id))
+            .map((item, i) => (
+              <div key={i}>
+                <CardItem {...item} />
+              </div>
+            ))
         )}
       </div>
     </div>
