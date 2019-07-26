@@ -1,10 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { TextField, Button, Grid, Snackbar } from "@material-ui/core";
 import Context from "../components/Context";
 import { apiUrl } from "../utils/data";
 import Spacer from "../components/Spacer";
 import { Redirect } from "react-router-dom";
-import logo from "../assets/logo.png";
+import logo from "../assets/tradesterWithText.png";
 
 export default function Login({ history }) {
   const { user, setUser } = useContext(Context);
@@ -20,6 +20,8 @@ export default function Login({ history }) {
   const [view, setView] = useState(0);
   const [snackbar, setSnackbar] = useState("");
 
+  const buttonRef = useRef(null);
+
   function handleChange(e) {
     setLogin({ ...login, [e.target.name]: e.target.value });
   }
@@ -34,19 +36,16 @@ export default function Login({ history }) {
     });
     const userResponse = await response.json();
 
-    console.log(userResponse);
-
     if (userResponse.message) {
       setSnackbar(userResponse.message);
     } else {
+      window.localStorage.setItem("user", userResponse.id);
       setUser(userResponse);
       history.push("/");
     }
   }
 
   async function handleSignup() {
-    console.log("Signing up");
-
     const payload = {
       email: login.email,
       password: login.password,
@@ -72,7 +71,6 @@ export default function Login({ history }) {
         excludeList: [],
         conversations: []
       };
-      console.log(newUser);
       setUser(newUser);
       history.push("/");
     } else {
@@ -81,12 +79,11 @@ export default function Login({ history }) {
   }
 
   return (
-    <div className="container">
-      <img src={logo} height={120} alt="A leaf" />
+    <Grid container alignItems="center" className="container" direction="column">
+      <img src={logo} height={180} alt="Handshake in green color" />
       {view === 0 ? (
         <>
-          <h1>Login</h1>
-          <Grid container direction="column">
+          <Grid container alignItems="center" direction="column">
             <Grid item>
               <TextField
                 margin="dense"
@@ -105,11 +102,16 @@ export default function Login({ history }) {
                 name="password"
                 type="password"
                 onChange={handleChange}
+                onKeyPress={e => {
+                  if (e.key === "Enter") {
+                    buttonRef.current.click();
+                  }
+                }}
               />
             </Grid>
             <Spacer />
             <Grid item>
-              <Button variant="contained" color="primary" onClick={handleLogin}>
+              <Button variant="contained" color="primary" onClick={handleLogin} ref={buttonRef}>
                 Login
               </Button>
               <Button onClick={() => setView(1)}>Sign up</Button>
@@ -118,8 +120,7 @@ export default function Login({ history }) {
         </>
       ) : (
         <>
-          <h1>Sign up</h1>
-          <Grid container direction="column">
+          <Grid container direction="column" alignItems="center">
             <Grid item>
               <TextField
                 margin="dense"
@@ -142,6 +143,8 @@ export default function Login({ history }) {
                 onChange={handleChange}
                 required
               />
+            </Grid>
+            <Grid item>
               <TextField
                 margin="dense"
                 label="Repeat password"
@@ -173,6 +176,8 @@ export default function Login({ history }) {
                 onChange={handleChange}
                 required
               />
+            </Grid>
+            <Grid item>
               <TextField
                 margin="dense"
                 label="City"
@@ -196,9 +201,12 @@ export default function Login({ history }) {
                   login.password !== login.repeatPassword ||
                   !login.name
                 }
+                fullWidth
               >
                 Sign up
               </Button>
+            </Grid>
+            <Grid item>
               <Button onClick={() => setView(0)}>Log into another account</Button>
             </Grid>
           </Grid>
@@ -211,6 +219,6 @@ export default function Login({ history }) {
         onClose={() => setSnackbar("")}
       />
       {user.id ? <Redirect to="/" /> : null}
-    </div>
+    </Grid>
   );
 }

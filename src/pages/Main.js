@@ -73,7 +73,6 @@ export default function Main({ history }) {
   }
 
   function handleUpdateMessages(newMessage) {
-    console.log(user.conversations, newMessage);
     const newUser = { ...user };
     const index = newUser.conversations.findIndex(
       conversation => conversation._id === newMessage._id
@@ -107,7 +106,7 @@ export default function Main({ history }) {
       conversation =>
         conversation.sender.id === userInfo.id || conversation.receiver.id === userInfo.id
     );
-    console.log(conversationExist);
+
     if (!conversationExist) {
       const newDate = format(new Date(), "YYYY-MM-DD HH:mm");
 

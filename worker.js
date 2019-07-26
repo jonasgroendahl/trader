@@ -1,5 +1,6 @@
 /* FOR LOCAL DEVELOPMENT - can also enable CRA SERVICE WORKER for DEVELOPMENT */
 
+/*
 var CACHE_NAME = "pwa-task-manager";
 var urlsToCache = [];
 
@@ -46,12 +47,19 @@ self.addEventListener("activate", event => {
 
 self.addEventListener("push", function(event) {
   if (event.data) {
+    const data = event.data.json();
+
+    const title = data.title;
+    const message = data.message;
+
     const options = {
-      body: "Crazy stuff"
+      body: message
       // here you can add more properties like icon, image, vibrate, etc.
     };
-    self.registration.showNotification(event.data.text(), options);
+    self.registration.showNotification(title, options);
   } else {
     console.log("Push event but no data");
   }
 });
+
+*/

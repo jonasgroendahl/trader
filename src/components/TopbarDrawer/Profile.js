@@ -6,6 +6,7 @@ export default function Profile({ tab, setTab, setMenuOpen, setOpen, setUser }) 
   const [anchorEl, setAnchorEl] = useState(null);
 
   function handleLogout() {
+    window.localStorage.removeItem("user");
     setUser({ id: 0, listings: [], excludeList: [] });
   }
 

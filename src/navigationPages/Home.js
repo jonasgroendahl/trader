@@ -31,9 +31,10 @@ export default function Home({ listings }) {
 
   if (mappedProducts.length === 0) {
     return (
-      <div>
-        <Typography className="container" variant="body1">
-          Nothing matches your current preferences
+      <div className="container">
+        <Typography variant="body1">
+          Sorry but no listings found that match your current preferences. Tap your profile picture
+          to get started.
         </Typography>
       </div>
     );

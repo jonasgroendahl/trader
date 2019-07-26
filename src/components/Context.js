@@ -17,16 +17,14 @@ export function ContextProvider({ children }) {
   const [searching, setSearching] = useState(false);
 
   useEffect(() => {
-    if (process.env.NODE_ENV === "development" && false) {
-      fetch(`${apiUrl}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ email: "jonas.groendahl@gmail.com", password: "lol123" })
-      })
+    // when app is booted, check if user has been logged in before, if so log the user in
+    const userLoggedInBefore = window.localStorage.getItem("user");
+    if (userLoggedInBefore) {
+      fetch(`${apiUrl}/user/${userLoggedInBefore}`)
         .then(res => res.json())
-        .then(userResponse => console.log(userResponse) || setUser(userResponse));
+        .then(result => {
+          setUser(result);
+        });
     }
   }, []);
 
