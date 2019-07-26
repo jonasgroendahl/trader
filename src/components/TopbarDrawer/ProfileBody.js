@@ -90,7 +90,12 @@ export default function ProfileBody({ tab, items, setMenuOpen, user, onSave, set
               Save changes
             </Button>
           </div>
-          <input type="file" onChange={handleUpload} ref={inputRef} />
+          <input
+            type="file"
+            onChange={handleUpload}
+            ref={inputRef}
+            accept="image/png, image/jpeg, image/jpg"
+          />
         </div>
       )}
     </div>

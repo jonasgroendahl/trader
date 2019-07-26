@@ -36,7 +36,7 @@ export default function CardItem({ img, name, profilePic, need, profileName = ""
       <Link to={`/listing/${id}`}>
         <CardMedia
           component="img"
-          height={150}
+          height={170}
           src={
             img.length > 0
               ? img[0]

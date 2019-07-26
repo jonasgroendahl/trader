@@ -1,11 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Typography } from "@material-ui/core";
-import Context from "../components/Context";
 import CardItem from "../components/CardItem";
 
-export default function Home({ listings }) {
-  const { user } = useContext(Context);
-
+export default function Home({ listings, user }) {
   const myNeeds = user.listings
     .reduce((acc, listing) => {
       const name = listing.name.toLowerCase();
@@ -29,7 +26,7 @@ export default function Home({ listings }) {
       </div>
     ));
 
-  if (mappedProducts.length === 0) {
+  if (mappedProducts.length === 0 || user.listings.length === 0) {
     return (
       <div className="container">
         <Typography variant="body1">

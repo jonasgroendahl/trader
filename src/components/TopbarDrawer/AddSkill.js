@@ -211,7 +211,12 @@ export default function AddSkill({ onClose, item }) {
                 </div>
               )}
             </div>
-            <input type="file" ref={inputRef} onChange={handleUpload} />
+            <input
+              type="file"
+              ref={inputRef}
+              onChange={handleUpload}
+              accept="image/png, image/jpeg, image/jpg"
+            />
             {loading ? (
               <div className="container">
                 <CircularProgress />

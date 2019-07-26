@@ -22,7 +22,7 @@ export default function Main({ history }) {
   function getPage() {
     switch (page) {
       case 0:
-        return <Home listings={listings} />;
+        return <Home listings={listings} user={user} />;
       case 1:
         return <Explore listings={listings} user={user} />;
       case 2:
