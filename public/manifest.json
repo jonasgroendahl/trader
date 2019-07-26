@@ -1,9 +1,9 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Tradester",
+  "name": "Tradester",
   "icons": [
     {
-      "src": "/images/icon.png",
+      "src": "/images/tradester.png",
       "type": "image/png",
       "sizes": "512x512"
     }
