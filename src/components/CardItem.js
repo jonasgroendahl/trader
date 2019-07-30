@@ -4,6 +4,7 @@ import "./CardItem.scss";
 import { MoreVert, Search, Subject } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import Context from "./Context";
+import getCloudinaryUrl from "../utils/getCloudinaryUrl";
 
 export default function CardItem({ img, name, profilePic, need, profileName = "", id }) {
   const { user, setUser } = useContext(Context);
@@ -13,6 +14,7 @@ export default function CardItem({ img, name, profilePic, need, profileName = ""
     setUser({ ...user, excludeList: [...user.excludeList, id] });
     setAnchorEl(null);
   }
+
   return (
     <Card className="CardItem" square>
       <CardHeader
@@ -20,7 +22,7 @@ export default function CardItem({ img, name, profilePic, need, profileName = ""
         subheader={profileName}
         avatar={
           <div>
-            <Avatar src={profilePic}>{profileName.substr(0, 1)}</Avatar>
+            <Avatar src={getCloudinaryUrl(profilePic)}>{profileName.substr(0, 1)}</Avatar>
             {need ? <Search /> : <Subject />}
           </div>
         }
@@ -39,7 +41,7 @@ export default function CardItem({ img, name, profilePic, need, profileName = ""
           height={170}
           src={
             img.length > 0
-              ? img[0]
+              ? getCloudinaryUrl(img[0])
               : "https://www.gumtree.com/static/1/resources/assets/rwd/images/orphans/a37b37d99e7cef805f354d47.noimage_thumbnail.png"
           }
         />

@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardMedia, Grid, Typography } from "@material-ui/core";
 import "./SearchItem.scss";
 import { Link } from "react-router-dom";
+import getCloudinaryUrl from "../utils/getCloudinaryUrl";
 
 export default function SearchItem({
   name,
@@ -17,7 +18,7 @@ export default function SearchItem({
           <CardMedia
             src={
               img.length > 0
-                ? img[0]
+                ? getCloudinaryUrl(img[0])
                 : "https://www.gumtree.com/static/1/resources/assets/rwd/images/orphans/a37b37d99e7cef805f354d47.noimage_thumbnail.png"
             }
             height={100}

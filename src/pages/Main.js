@@ -13,10 +13,12 @@ import Events from "../navigationPages/Events";
 import { format } from "date-fns";
 import { apiUrl } from "../utils/data";
 import subscribePushNotifcations from "../utils/subscribePushNotifications";
+import User from "./User";
 
 export default function Main({ history }) {
   const [page, setPage] = useState(0);
   const [listings, setListings] = useState([]);
+  const [userPageInfo, setUserPageInfo] = useState(null);
   const { searching, setSearching, user, setUser } = useContext(Context);
 
   function getPage() {
@@ -46,12 +48,12 @@ export default function Main({ history }) {
       getListings();
       subscribePushNotifcations(user.id);
     }
-  }, []);
+  }, [user]);
 
   function getListings() {
     fetch(`${apiUrl}/listing`)
       .then(res => res.json())
-      .then(listings => setListings(listings))
+      .then(listings => console.log(listings) || setListings(listings))
       .catch(e => console.log(e));
   }
 
@@ -138,6 +140,10 @@ export default function Main({ history }) {
     }
   }
 
+  function handleUserProfileClick(userInfo) {
+    setUserPageInfo(userInfo); //TODO add user screen
+  }
+
   return (
     <Grid container direction="column" style={{ height: "100vh" }}>
       <Topbar getListings={getListings} />
@@ -146,11 +152,18 @@ export default function Main({ history }) {
       </div>
       <div style={{ flexGrow: 1 }} />
       <BottomNav value={page} onChange={handlePageChange} />
-      {!user.id && <Redirect to="/login" />}
+      {!user.id && !window.localStorage.getItem("user") && <Redirect to="/login" />}
       <Route
         path="/listing/:id"
-        component={props => <Listing onMessage={handleNewConversation} {...props} />}
+        component={props => (
+          <Listing
+            onMessage={handleNewConversation}
+            onUserProfileClick={handleUserProfileClick}
+            {...props}
+          />
+        )}
       />
+      <User {...userPageInfo} toggle={() => setUserPageInfo(null)} />
     </Grid>
   );
 }

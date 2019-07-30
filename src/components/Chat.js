@@ -13,6 +13,7 @@ import {
 import { KeyboardBackspace } from "@material-ui/icons";
 import "./Chat.scss";
 import { format } from "date-fns";
+import getCloudinaryUrl from "../utils/getCloudinaryUrl";
 
 export default function Chat({ conversation, onClose, onChange, userId }) {
   const { messages = [], sender, receiver } = conversation;
@@ -48,7 +49,7 @@ export default function Chat({ conversation, onClose, onChange, userId }) {
     const el = document.querySelector(".chat");
     if (el) {
       setTimeout(() => {
-        el.scrollBy({ top: el.scrollHeight, behavior: "smooth" });
+        el.scrollBy({ top: el.scrollHeight });
       }, 50);
     }
   }
@@ -61,14 +62,16 @@ export default function Chat({ conversation, onClose, onChange, userId }) {
             <IconButton onClick={onClose} color="inherit">
               <KeyboardBackspace />
             </IconButton>
-            <Avatar src={img}>{name.substr(0, 1)}</Avatar>
+            <Avatar src={getCloudinaryUrl(img)}>{name.substr(0, 1)}</Avatar>
           </Toolbar>
         </AppBar>
         <List className="chat">
           {messages.map((msg, index) => (
             <Grid container className="chat-message" key={`m_${index}`} alignItems="center">
               <Grid item xs={2}>
-                {msg.sender !== userId ? <Avatar src={img}>{name.substr(0, 1)}</Avatar> : null}
+                {msg.sender !== userId ? (
+                  <Avatar src={getCloudinaryUrl(img)}>{name.substr(0, 1)}</Avatar>
+                ) : null}
               </Grid>
               {msg.sender !== userId ? (
                 <>

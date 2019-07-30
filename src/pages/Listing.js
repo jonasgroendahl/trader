@@ -17,9 +17,10 @@ import {
 import SlideTransition from "../components/SlideTransition";
 import { Lens, KeyboardBackspace, LocationOn } from "@material-ui/icons";
 import { apiUrl } from "../utils/data";
+import getCloudinaryUrl from "../utils/getCloudinaryUrl";
 
 export default function Listing(props) {
-  const { history, match, onMessage } = props;
+  const { history, match, onMessage, onUserProfileClick } = props;
 
   const [selectedImage, setSelectedImage] = useState(0);
 
@@ -67,6 +68,14 @@ export default function Listing(props) {
 
   const purposeTypeString = listing.need ? "I am looking for" : `I can trade this ${listing.type}`;
 
+  let imageUrl = "";
+  if (listing.img.length > 0) {
+    imageUrl = getCloudinaryUrl(listing.img[selectedImage]);
+  } else {
+    imageUrl =
+      "https://www.gumtree.com/static/1/resources/assets/rwd/images/orphans/a37b37d99e7cef805f354d47.noimage_thumbnail.png";
+  }
+
   return (
     <Dialog fullScreen open TransitionComponent={SlideTransition} className="Post">
       <IconButton onClick={() => history.goBack()}>
@@ -78,21 +87,23 @@ export default function Listing(props) {
         onTouchMove={handleMove}
         onTouchEnd={handleEnd}
       >
-        <img
-          src={
-            listing.img.length > 0
-              ? listing.img[selectedImage]
-              : "https://www.gumtree.com/static/1/resources/assets/rwd/images/orphans/a37b37d99e7cef805f354d47.noimage_thumbnail.png"
-          }
-          height={180}
-          alt="Listing"
-        />
+        <img src={imageUrl} height={180} alt="Listing" />
         <div className="center-dots">
           {listing.img.map((imgUrl, index) => (
             <Lens key={index} className={index === selectedImage ? "selected" : ""} />
           ))}
         </div>
-        <Avatar className="userProfilePic" src={listing.profilePic}>
+        <Avatar
+          className="userProfilePic"
+          src={listing.profilePic}
+          onClick={() =>
+            onUserProfileClick({
+              name: listing.profileName,
+              id: listing.profileId,
+              img: listing.profilePic
+            })
+          }
+        >
           {listing.profileName.substr(0, 1)}
         </Avatar>
       </div>

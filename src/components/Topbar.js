@@ -20,7 +20,9 @@ export default function Topbar({ getListings }) {
   }
 
   function submitSearch(keyword) {
+    console.log(keyword);
     ctx.setSearching(keyword);
+    setSearch(keyword);
     setSearchOpen(false);
   }
 

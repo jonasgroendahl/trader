@@ -12,6 +12,7 @@ import {
 import { distanceInWordsToNow } from "date-fns";
 import Chat from "../components/Chat";
 import { Refresh } from "@material-ui/icons";
+import getCloudinaryUrl from "../utils/getCloudinaryUrl";
 
 export default function Messages({ conversations = [], onChange, userId, refreshConversations }) {
   const [selectedConversation, setSelectedConversation] = useState({});
@@ -43,7 +44,7 @@ export default function Messages({ conversations = [], onChange, userId, refresh
           return (
             <ListItem button divider key={index} onClick={() => setSelectedConversation(con)}>
               <ListItemAvatar>
-                <Avatar src={img}>{name.substr(0, 1)}</Avatar>
+                <Avatar src={getCloudinaryUrl(img)}>{name.substr(0, 1)}</Avatar>
               </ListItemAvatar>
               <ListItemText primary={name} secondary={distanceInWordsToNow(con.last_active)} />
             </ListItem>
